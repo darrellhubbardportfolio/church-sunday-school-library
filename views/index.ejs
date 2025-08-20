@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <!-- boostrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <!-- boostrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="/static/public/css" />
+    <link rel="stylesheet" href="/static/public/css" />
+</head>
+<body>
+    <%- include("./../static/public/components/navbar") %>
+    <header></header>
+    <main>
+        <section></section>
+        <section id="bookshelf">
+            <%- books.map(book => {
+                <article class="book" data-key="<%- book['id'] %>" data-title="<%= book['title'] %>">
+                    <figure class="book-cover-container">
+                        <img src="/uploads/img/<%- book['cover'] %>" alt="<%- book['cover'] %>" />
+                    </figure>
+                    <details>
+                        <summary>
+                            <h5 class="book-title"><%- book['title'] %></h5>
+                            <h6 class="book-authors">
+                                <% book['authors'].map(author => <%- author.split(",") %>) %>
+                            </h6>
+                            <p class="book-details"><%- book['details'] %></p>
+                        </summary>
+                    </details>
+                </article>
+            <% }) %>
+        </section>
+    </main>
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <!-- popper js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js" integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- javascripts -->
+    <script src="/static/public/js/scripts.js"></script>
+</body>
+</html>
