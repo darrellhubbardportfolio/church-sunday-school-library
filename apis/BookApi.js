@@ -1,29 +1,23 @@
-const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database(":memory:", err => {
-    err ? console.error(err) : console.log("Successfully opened and connected to database");
-});
+const { db, loadModels } = require("./ModelApi");
 
-/*
-    create a simulated database of books
-      const allBooks = [
-    { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', genre: 'Classic', publicationYear: 1925 },
-    { id: 2, title: '1984', author: 'George Orwell', genre: 'Dystopian', publicationYear: 1949 },
-    { id: 3, title: 'To Kill a Mockingbird', author: 'Harper Lee', genre: 'Classic', publicationYear: 1960 },
-    { id: 4, title: 'Dune', author: 'Frank Herbert', genre: 'Science Fiction', publicationYear: 1965 },
-    { id: 5, title: 'The Hobbit', author: 'J.R.R. Tolkien', genre: 'Fantasy', publicationYear: 1937 },
-    { id: 6, title: 'Brave New World', author: 'Aldous Huxley', genre: 'Dystopian', publicationYear: 1932 },
-    { id: 7, title: 'Fahrenheit 451', author: 'Ray Bradbury', genre: 'Dystopian', publicationYear: 1953 },
-    { id: 8, title: 'The Catcher in the Rye', author: 'J.D. Salinger', genre: 'Classic', publicationYear: 1951 },
-    { id: 9, title: 'Foundation', author: 'Isaac Asimov', genre: 'Science Fiction', publicationYear: 1951 },
-    { id: 10, title: 'Slaughterhouse-Five', author: 'Kurt Vonnegut', genre: 'Science Fiction', publicationYear: 1969 },
-    { id: 11, title: 'The Lord of the Rings', author: 'J.R.R. Tolkien', genre: 'Fantasy', publicationYear: 1954 },
-    { id: 12, title: 'Pride and Prejudice', author: 'Jane Austen', genre: 'Classic', publicationYear: 1813 },
-  ];
-*/
+// initialize the loading of models
+loadModels();
 
 // return all items for modal
 function FetchAllBooks () {
-    return new Promise((resolve, reject) => db.all('select * from Books', (err, rows) => err ? reject(err) : resolve(rows)));
+    return new Promise((resolve, reject) => db.all(`
+      select Books.id as id, Books.title as title, Books.genre as genre, Books.summary as summary, Books.filename as filename, Books.cover as cover, BookToCategoryMap.book_fk as category, BookToAuthorMap.book_fk as author 
+        from 
+          Books
+        join
+          Categories
+        on
+          Books.id = BookToCategoryMap.book_fk
+        join
+          Authors
+        on
+          Books.id = BookToAuthorMap.book_fk
+      `, (err, rows) => err ? reject(err) : resolve(rows)));
 }
 
 // fetch item by id
@@ -113,4 +107,13 @@ function PaginateAllBooks(display, page, search, sorts={ fieldname: 'title', ord
       error: 'An error occurred while fetching books.'
     };
   }
+}
+
+module.exports = {
+  FetchAllBooks,
+  FetchBookById,
+  UpdateBookById,
+  DeleteBookById,
+  PaginateAllBooks,
+  InsertOneBook,
 }
