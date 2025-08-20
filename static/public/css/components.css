@@ -2,7 +2,7 @@
 #bookshelf {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    grid-auto-rows: 350px !important;
+    grid-auto-rows: minmax(350px, 350px) !important;
     padding: 28px;
 }
 
@@ -29,6 +29,15 @@
     object-fit: contain;
 }
 
+.book> details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
 .sort-container,
 .filters-container {
     display: flex;
@@ -46,12 +55,13 @@
 /* mobile devices 
     android and ios: Samsung Galaxy A and S series, Google Pixel, iPhone 12+ ... iPhone @latest version
 */
-@media screen and (max-width: 576px) {
+@media only screen and (max-width: 576px) {
 
     #bookshelf {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 300px;
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-auto-rows: minmax(300px, 300px) !important;
     }
+
     .book {
         max-height: 225px;
     }

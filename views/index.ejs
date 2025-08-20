@@ -15,12 +15,12 @@
 <body>
     
     <header></header>
-    <main class="container-fluid col-lg-12 col-md-12 col-sm-12 p-5">
+    <main class="container-fluid col-lg-12 col-md-12 col-sm-12 p-5 row">
 
         <section class="container-fluid col-lg-12 col-md-12 col-sm-12 row" style="height: 100px;">
 
             <!-- sort -->
-            <div class="container-fluid col-lg-3 col-md-3 col-sm-12 p-2">
+            <div class="container-fluid col-lg-2 col-md-3 col-sm-12 p-2 m-0">
 
                 <div class="sort-container border rounded-3 p-3">
                     <i class="bi bi-sort-up fs-5"></i>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- filters -->
-            <div class="container-fluid col-lg-3 col-md-3 col-sm-12 p-2">
+            <div class="container-fluid col-lg-2 col-md-3 col-sm-12 p-2 m-0">
 
                 <div class="filters-container border rounded-3 p-3">
                     <i class='bi bi-filter fs-5'></i>
@@ -43,11 +43,11 @@
 
         </section>
 
-        <section class='container-fluid col-lg-12 col-md-12 col-sm-12 p-5 bg-light' id="bookshelf">
+        <section class='container-fluid col-lg-12 col-md-12 col-sm-12 p-5' id="bookshelf">
 
             <% books.map(book => { %>
 
-                <article class="book" data-key=<%- book['id'] %> data-title="<%- book['title'] %>">
+                <article class="book" data-key="<%- book['id'] %>" data-title="<%- book['title'] %>">
 
                     <figure class="book-cover-container">
                         <img src="<%- book['cover'] %>" alt="<%- book['cover'] %>" class="book-cover" />
