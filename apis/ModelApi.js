@@ -48,10 +48,11 @@ const BookToCategoryMapModel = `
 
 function loadModels () {
 
-    return db.serialize(() => {
+    db.serialize(() => {
 
         // create the book model
         db.run(BookModel, err => err? console.error(err):console.log('model created.'));
+        
         // create the author model
         db.run(AuthorModel, err => err? console.error(err):console.log('model created.'));
 
@@ -67,4 +68,6 @@ function loadModels () {
     });
 }
 
-module.exports = loadModels;
+module.exports = {
+    loadModels,
+};
