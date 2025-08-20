@@ -4,6 +4,7 @@
     grid-template-columns: repeat(3, 1fr) !important;
     grid-auto-rows: minmax(350px, 350px) !important;
     padding: 28px;
+    background-color: red;
 }
 
 .book {
