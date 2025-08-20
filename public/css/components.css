@@ -3,6 +3,7 @@
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     grid-auto-rows: minmax(350px, 350px) !important;
+    align-items: start !important;
     padding: 28px;
 }
 
