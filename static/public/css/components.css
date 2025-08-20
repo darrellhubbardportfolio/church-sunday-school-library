@@ -3,7 +3,6 @@
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     grid-auto-rows: 350px !important;
-    border: 1px solid lightgray;
     padding: 28px;
 }
 
@@ -12,6 +11,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    border: 1px solid lightgray;
 }
 
 .book-cover-container {
@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
     max-width: 100%;
+    height: 275px;
     overflow: hidden;
 }
 
@@ -28,6 +29,18 @@
     object-fit: contain;
 }
 
+.sort-container,
+.filters-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    border: 1px solid gray;
+}
+
+.sort {
+
+}
 /* table devices */
 
 /* mobile devices 
@@ -38,5 +51,8 @@
     #bookshelf {
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: 300px;
+    }
+    .book {
+        max-height: 225px;
     }
 }
