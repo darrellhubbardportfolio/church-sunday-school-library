@@ -46,9 +46,9 @@ const BookToCategoryMapModel = `
         foreign key (category_fk) references Categories(id)
     )`;
 
-function createModels () {
+function loadModels () {
 
-    db.serialize(() => {
+    return db.serialize(() => {
 
         // create the book model
         db.run(BookModel, err => err? console.error(err):console.log('model created.'));
@@ -67,4 +67,4 @@ function createModels () {
     });
 }
 
-module.exports = createModels;
+module.exports = loadModels;

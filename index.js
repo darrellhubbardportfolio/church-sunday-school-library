@@ -20,6 +20,9 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
 
+// import models api
+const { loadModels } = require("./apis/ModelApi");
+
 const HomeRouter = require("./routes/HomeRouter");
 app.use("/", HomeRouter);
 
