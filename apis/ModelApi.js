@@ -77,28 +77,73 @@ function loadModels () {
         { id: 8, title: 'The Catcher in the Rye', authors: ['J.D. Salinger'], genre: 'Classic', publish_year: 1951, cover: 'https://covers.openlibrary.org/b/id/12574677-L.jpg' },
         { id: 9, title: 'Foundation', authors: ['Isaac Asimov'], genre: 'Science Fiction', publish_year: 1951, cover: 'https://covers.openlibrary.org/b/id/11417032-L.jpg' },
         { id: 10, title: 'Slaughterhouse-Five', authors: ['Kurt Vonnegut'], genre: 'Science Fiction', publish_year: 1969, cover: 'https://covers.openlibrary.org/b/id/12711666-L.jpg' },
-        { id: 11, title: 'The Lord of the Rings', authors: ['J.R.R. Tolkien'], genre: 'Fantasy', publish_year: 1954, cover: 'https://covers.openlibrary.org/b/id/11520630-L.jpg' },
-        { id: 12, title: 'The Lord of the Rings', authors: ['J.R.R. Tolkien'], genre: 'Fantasy', publish_year: 1954, cover: '' }
+        { id: 11, title: 'The Lord of the Rings', authors: ['J.R.R. Tolkien'], genre: 'Fantasy', publish_year: 1954, cover: 'https://covers.openlibrary.org/b/id/11520630-L.jpg' }
         ];
         // add by mapping books to database
         books.map( book => {
             const addBook = 'insert into Books (title, genre, publish_year, cover) values (?, ?, ?, ?)';
             const addAuthor = 'insert into Authors (author) values (?)';
-            const addCategoryMap = 'insert into BookToCategoryMap (category_fk, book_fk) values (?, ?)';
-            const addAuthorMap = 'insert into BookToAuthorMap (author_fk, book_fk) values (?, ?)';
 
             // we will first add new books
-            db.run(addBook, [ book.title, book.genre, book.publish_year, book.cover ], err => err ? console.error(err) : console.log("insert one book"));
+            db.run(addBook, [ book.title, book.genre, book.publish_year, book.cover ], err => {
+                if(err){
+                 console.error(err);
+                }
+                // console.log("insert one book");
+            });
 
             // next let's add an author; no duplicat authors can be inside of database.
-            book['authors'].map( (author, idx) => (!books[idx]['authors'].includes(author)) ? db.run(addAuthor, [ author ], err => err ? console.error(err) : console.log('insert one author')) : console.log('author: ' + author + ', exists already'));
+            book['authors'].map( (author, idx) => {
 
-            // let's now map authors to a book
+                if(!books[idx]['authors'].includes(author)) { 
 
+                    db.run(addAuthor, [ author ], err => {
+                        if(err){ 
+                            console.error(err);
+                        }
+                        console.log('insert one author');
+                    });
+                }
+                // console.log('author: ' + author + ', exists already');
+            });
         });
 
-        // create a map for categories
+        // create a map for authors 
+        const addAuthorMap = 'insert into BookToAuthorMap (author_fk, book_fk) values (?, ?)';
 
+        // let's now map authors to a book
+        // first get all authors
+        let getAuthors = db.all('SELECT * FROM Authors group by author order by id asc', (err, rows) => {
+            if (err) {
+                console.error(err);
+            }
+            // console.log(rows);
+            return rows;
+        });
+
+        // second get all books
+        let getBooks = db.all('select * from Books', (err, rows) => {
+            if (err) {
+                console.error(err);
+            }
+            // console.log(rows);
+            return rows;
+        });
+
+        // lets create a BookToAuthorMap
+        // first loop through books.
+        // second find out where the books.title = a book in database.
+        // third get the authors
+        // fourth get the book.id
+        // fifth map through each author in array, then find the id of each one
+        // six, add the id to the author and book.
+        // create a map for categories
+        getBooks.map( (getBook, idx) => {
+            console.log('idx: ', idx);
+            let findBookTitle = getBooks.indexOf(books[idx]);
+            // console.log('find index of book: ', findBookTitle);
+        })
+        const addCategoryMap = 'insert into BookToCategoryMap (category_fk, book_fk) values (?, ?)';
     });
 }
 

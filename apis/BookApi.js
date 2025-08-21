@@ -6,17 +6,10 @@ loadModels();
 // return all items for modal
 function FetchAllBooks () {
     return new Promise((resolve, reject) => db.all(`
-      select Books.id as id, Books.title as title, Books.genre as genre, Books.summary as summary, Books.filename as filename, Books.cover as cover, BookToCategoryMap.book_fk as category, BookToAuthorMap.book_fk as author 
+      select 
+        *
         from 
           Books
-        join
-          Categories
-        on
-          Books.id = BookToCategoryMap.book_fk
-        join
-          Authors
-        on
-          Books.id = BookToAuthorMap.book_fk
       `, (err, rows) => err ? reject(err) : resolve(rows)));
 }
 
