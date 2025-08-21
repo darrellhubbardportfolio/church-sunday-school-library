@@ -19,11 +19,31 @@ function SignIn (req, res, next) {
         var user = db.get('select * from Users where username = ?', [ req.body.username ], (err, row) => err ? console.error(err) : row);
 
         // check if a user exists
-        // if the user exists, check if the passwords match
-        // when they exist, create a session and proceed,
-        // if by the chance they do not exist then redirect back to the login page and send an error message
-        !user ? console.log('user not found') : user['password'] === req.body.password ? (req.session.user = user, next()) : (console.log('passwords do not match.'), res.redirect('/login'));
+        if(user) {
+            // check if passwords are a match
+            if (user['password'] === req.body.password) {
+            
+                // create a session
+                req.session.user = user;
+                // check role and redirect
+                if (user.role === 'admin') {
+                    res.redirect('/admin');
+                } 
+                if (user.role === 'student') {
+                    res.redirect('/student');
+                }
+            } else {
+                console.log('passwords are not matching');
+            }
+        }
+        else {
+            console.log('user is not found');
+        }
     }
+}
+
+function SignUp (req, res, next) {
+
 }
 
 function AuthenticateRoute (req, res, next) {
@@ -53,9 +73,20 @@ function AuthorizeStudentRoute (req, res, next) {
     }
 }
 
+function UpdateLastLoginActivity (id) {
+    const query = 'update on Users set lastLoginActivity = current_date where id = ?';
+    db.run(query, [ id ], err => {
+        if (err) {
+            console.error(err);
+        }
+        console.log('updated last login activity');
+    });
+}
+
 module.exports = {
     SignIn, 
     SignOut,
+    SignUp,
     AuthenticateRoute,
     AuthorizeAdminRoute,
     AuthorizeStudentRoute

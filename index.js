@@ -23,6 +23,15 @@ app.set("view engine", "ejs");
 // import models api
 const { loadModels } = require("./apis/ModelApi");
 
+const LoginRouter = require("./routes/LoginRouter");
+app.use("/login", LoginRouter);
+
+const RegisterRouter = require("./routes/RegisterRouter");
+app.use("/register", RegisterRouter);
+
+const LogoutRouter = require("./routes/LogoutRouter");
+app.use("/signoff", LogoutRouter);
+
 const HomeRouter = require("./routes/HomeRouter");
 app.use("/", HomeRouter);
 
