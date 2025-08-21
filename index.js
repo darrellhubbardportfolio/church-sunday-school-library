@@ -30,7 +30,7 @@ const RegisterRouter = require("./routes/RegisterRouter");
 app.use("/register", RegisterRouter);
 
 const LogoutRouter = require("./routes/LogoutRouter");
-app.use("/signoff", LogoutRouter);
+app.use("/logout", LogoutRouter);
 
 const HomeRouter = require("./routes/HomeRouter");
 app.use("/", HomeRouter);

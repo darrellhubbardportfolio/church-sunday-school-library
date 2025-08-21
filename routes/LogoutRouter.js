@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { SignOut } = require("./../apis/AuthApi");
+const { SignOut } = require("../apis/AuthApi");
 
-// default login page
+// logout
 router.get("/", SignOut);
 
 module.exports = router;
